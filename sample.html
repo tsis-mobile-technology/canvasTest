@@ -5,6 +5,7 @@
 		1. https://developer.mozilla.org/ko/docs/Web/HTML/Canvas/Tutorial/Basic_usage
 		2. https://developer.mozilla.org/ko/docs/Web/HTML/Canvas/Tutorial/Drawing_shapes 
 	-->
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
 	<meta charset="utf-8"/>
 	<title>Canvas tutorial</title>
 	<script type="text/javascript">
@@ -193,6 +194,80 @@
 			ctx.fill(circle);
 			ctx.stroke(p);
 		}
+
+		var ctx = document.getElementById('strokeStyleArc').getContext('2d');
+		for (var i=0;i<6;i++){
+			for (var j=0;j<6;j++){
+				ctx.strokeStyle = 'rgb(0,' + Math.floor(255-42.5*i) + ',' + 
+				Math.floor(255-42.5*j) + ')';
+				ctx.beginPath();
+				ctx.arc(12.5+j*25,12.5+i*25,10,0,Math.PI*2,true);
+				ctx.stroke();
+			}
+		}
+
+		var ctx = document.getElementById('strokeStyleAlpha').getContext('2d');
+		// 배경을 그린다
+		ctx.fillStyle = '#FD0';
+		ctx.fillRect(0,0,75,75);
+		ctx.fillStyle = '#6C0';
+		ctx.fillRect(75,0,75,75);
+		ctx.fillStyle = '#09F';
+		ctx.fillRect(0,75,75,75);
+		ctx.fillStyle = '#F30';
+		ctx.fillRect(75,75,75,75);
+		ctx.fillStyle = '#FFF';
+
+		// 투명값을 설정한다
+		ctx.globalAlpha = 0.2;
+
+		// 반투명한 원을 그린다
+		for (i=0;i<7;i++){
+			ctx.beginPath();
+			ctx.arc(75,75,10+10*i,0,Math.PI*2,true);
+			ctx.fill();
+		}
+
+		var ctx = document.getElementById('strokeStyleRgba').getContext('2d');
+
+		// 배경을 그린다
+		ctx.fillStyle = 'rgb(255,221,0)';
+		ctx.fillRect(0,0,150,37.5);
+		ctx.fillStyle = 'rgb(102,204,0)';
+		ctx.fillRect(0,37.5,150,37.5);
+		ctx.fillStyle = 'rgb(0,153,255)';
+		ctx.fillRect(0,75,150,37.5);
+		ctx.fillStyle = 'rgb(255,51,0)';
+		ctx.fillRect(0,112.5,150,37.5);
+
+		// 반투명한 사각형을 그린다
+		for (var i=0;i<10;i++){
+			ctx.fillStyle = 'rgba(255,255,255,'+(i+1)/10+')';
+			for (var j=0;j<4;j++){
+				ctx.fillRect(5+i*14,5+j*37.5,14,27.5)
+			}
+		}
+
+		var ctx = document.getElementById('saveRestore').getContext('2d');
+
+		ctx.fillRect(0, 0, 150, 150);   // Draw a rectangle with default settings
+		ctx.save();                  // Save the default state
+
+		ctx.fillStyle = '#09F';      // Make changes to the settings
+		ctx.fillRect(15, 15, 120, 120); // Draw a rectangle with new settings
+
+		ctx.save();                  // Save the current state
+		ctx.fillStyle = '#FFF';      // Make changes to the settings
+		ctx.globalAlpha = 0.5; 
+		ctx.fillRect(30, 30, 90, 90);   // Draw a rectangle with new settings
+
+		ctx.restore();               // Restore previous state
+		ctx.fillRect(45, 45, 60, 60);   // Draw a rectangle with restored settings
+
+		ctx.restore();               // Restore original state
+		ctx.fillRect(60, 60, 30, 30);   // Draw a rectangle with restored settings
+
+		solarInit();
 	}
 	// A utility function to draw a rectangle with rounded corners.
 
@@ -209,6 +284,151 @@
 		ctx.arcTo(x, y, x, y + radius, radius);
 		ctx.stroke();
 	}
+
+	var sun = new Image();
+	var moon = new Image();
+	var earth = new Image();
+
+	function solarInit() {
+		sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';
+		moon.src = 'https://mdn.mozillademos.org/files/1443/Canvas_moon.png';
+		earth.src = 'https://mdn.mozillademos.org/files/1429/Canvas_earth.png';
+	  window.requestAnimationFrame(solarSystem);
+	}
+
+	function solarSystem() {
+	  var ctx = document.getElementById('solar').getContext('2d');
+
+	  ctx.globalCompositeOperation = 'destination-over';
+	  ctx.clearRect(0, 0, 300, 300); // clear canvas
+
+	  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+	  ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
+	  ctx.save();
+	  ctx.translate(150, 150);
+
+	  // Earth
+	  var time = new Date();
+	  ctx.rotate(((2 * Math.PI) / 60) * time.getSeconds() + ((2 * Math.PI) / 60000) * time.getMilliseconds());
+	  ctx.translate(105, 0);
+	  ctx.fillRect(0, -12, 50, 24); // Shadow
+	  ctx.drawImage(earth, -12, -12);
+
+	  // Moon
+	  ctx.save();
+	  ctx.rotate(((2 * Math.PI) / 6) * time.getSeconds() + ((2 * Math.PI) / 6000) * time.getMilliseconds());
+	  ctx.translate(0, 28.5);
+	  ctx.drawImage(moon, -3.5, -3.5);
+	  ctx.restore();
+
+	  ctx.restore();
+	  
+	  ctx.beginPath();
+	  ctx.arc(150, 150, 105, 0, Math.PI * 2, false); // Earth orbit
+	  ctx.stroke();
+	 
+	  ctx.drawImage(sun, 0, 0, 300, 300);
+
+	  window.requestAnimationFrame(solarSystem);
+	}
+
+	function clock() {
+		var now = new Date();
+		var ctx = document.getElementById('analogClock').getContext('2d');
+		ctx.save();
+		ctx.clearRect(0, 0, 150, 150);
+		ctx.translate(75, 75);
+		ctx.scale(0.4, 0.4);
+		ctx.rotate(-Math.PI / 2);
+		ctx.strokeStyle = 'black';
+		ctx.fillStyle = 'white';
+		ctx.lineWidth = 8;
+		ctx.lineCap = 'round';
+
+		// Hour marks
+		ctx.save();
+		for (var i = 0; i < 12; i++) {
+		ctx.beginPath();
+		ctx.rotate(Math.PI / 6);
+		ctx.moveTo(100, 0);
+		ctx.lineTo(120, 0);
+		ctx.stroke();
+		}
+		ctx.restore();
+
+		// Minute marks
+		ctx.save();
+		ctx.lineWidth = 5;
+		for (i = 0; i < 60; i++) {
+		if (i % 5!= 0) {
+		ctx.beginPath();
+		ctx.moveTo(117, 0);
+		ctx.lineTo(120, 0);
+		ctx.stroke();
+		}
+		ctx.rotate(Math.PI / 30);
+		}
+		ctx.restore();
+
+		var sec = now.getSeconds();
+		var min = now.getMinutes();
+		var hr  = now.getHours();
+		hr = hr >= 12 ? hr - 12 : hr;
+
+		ctx.fillStyle = 'black';
+
+		// write Hours
+		ctx.save();
+		ctx.rotate(hr * (Math.PI / 6) + (Math.PI / 360) * min + (Math.PI / 21600) *sec);
+		ctx.lineWidth = 14;
+		ctx.beginPath();
+		ctx.moveTo(-20, 0);
+		ctx.lineTo(80, 0);
+		ctx.stroke();
+		ctx.restore();
+
+		// write Minutes
+		ctx.save();
+		ctx.rotate((Math.PI / 30) * min + (Math.PI / 1800) * sec);
+		ctx.lineWidth = 10;
+		ctx.beginPath();
+		ctx.moveTo(-28, 0);
+		ctx.lineTo(112, 0);
+		ctx.stroke();
+		ctx.restore();
+
+		// Write seconds
+		ctx.save();
+		ctx.rotate(sec * Math.PI / 30);
+		ctx.strokeStyle = '#D40000';
+		ctx.fillStyle = '#D40000';
+		ctx.lineWidth = 6;
+		ctx.beginPath();
+		ctx.moveTo(-30, 0);
+		ctx.lineTo(83, 0);
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.arc(0, 0, 10, 0, Math.PI * 2, true);
+		ctx.fill();
+		ctx.beginPath();
+		ctx.arc(95, 0, 10, 0, Math.PI * 2, true);
+		ctx.stroke();
+		ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+		ctx.arc(0, 0, 3, 0, Math.PI * 2, true);
+		ctx.fill();
+		ctx.restore();
+
+		ctx.beginPath();
+		ctx.lineWidth = 14;
+		ctx.strokeStyle = '#325FA2';
+		ctx.arc(0, 0, 142, 0, Math.PI * 2, true);
+		ctx.stroke();
+
+		ctx.restore();
+
+		window.requestAnimationFrame(clock);
+	}
+	window.requestAnimationFrame(clock);
 
 	</script>
 	<style type="text/css">
@@ -240,5 +460,29 @@
 	<!-- IE 9//-->
 	<img src="images/clock.jpg" width="150" height="150" alt=""/>
 	</canvas>
+	<canvas id="strokeStyleArc" width="150" height="150">
+	<!-- IE 9//-->
+	<img src="images/clock.jpg" width="150" height="150" alt=""/>
+	</canvas>	
+	<canvas id="strokeStyleAlpha" width="150" height="150">
+	<!-- IE 9//-->
+	<img src="images/clock.jpg" width="150" height="150" alt=""/>
+	</canvas>
+	<canvas id="strokeStyleRgba" width="150" height="150">
+	<!-- IE 9//-->
+	<img src="images/clock.jpg" width="150" height="150" alt=""/>
+	</canvas>	
+	<canvas id="saveRestore" width="150" height="150">
+	<!-- IE 9//-->
+	<img src="images/clock.jpg" width="150" height="150" alt=""/>
+	</canvas>
+	<canvas id="analogClock" width="150" height="150">
+	<!-- IE 9//-->
+	<img src="images/clock.jpg" width="150" height="150" alt=""/>
+	</canvas>
+	<canvas id="solar" width="300" height="300">
+	<!-- IE 9//-->
+	<img src="images/clock.jpg" width="300" height="300" alt=""/>
+	</canvas>	
 </body>
 </html>

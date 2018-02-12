@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- 
+		1. https://developer.mozilla.org/ko/docs/Web/HTML/Canvas/Tutorial/Basic_usage
+		2. https://developer.mozilla.org/ko/docs/Web/HTML/Canvas/Tutorial/Drawing_shapes 
+	-->
+
+	<meta charset="utf-8"/>
+	<title>Canvas tutorial</title>
+	<script type="text/javascript">
+
+	var sun = new Image();
+	var moon = new Image();
+	var earth = new Image();
+
+	function initFrame() {
+		sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';
+		moon.src = 'https://mdn.mozillademos.org/files/1443/Canvas_moon.png';
+		earth.src = 'https://mdn.mozillademos.org/files/1429/Canvas_earth.png';
+	  window.requestAnimationFrame(initdraw);
+	}
+
+	function initdraw() {
+
+		var canvas = document.getElementById('canvas'),
+		    ctx = canvas.getContext('2d'),
+		    rect = {},
+		    drag = false;
+
+		function drawimage() {
+			document.getElementById('canvas'),
+		    ctx = canvas.getContext('2d');
+		    ctx.drawImage(sun, 0, 0, 300, 300);
+		}
+
+		function init() {
+			drawimage();
+		  canvas.addEventListener('mousedown', mouseDown, false);
+		  canvas.addEventListener('mouseup', mouseUp, false);
+		  canvas.addEventListener('mousemove', mouseMove, false);
+		}
+
+		function mouseDown(e) {
+		  rect.startX = e.pageX - this.offsetLeft;
+		  rect.startY = e.pageY - this.offsetTop;
+		  drag = true;
+		}
+
+		function mouseUp() {
+			drag = false;
+			//ctx.clearRect(0,0,canvas.width,canvas.height);
+		}
+		function mouseMove(e) {
+		  if (drag) {
+		    rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+		    rect.h = (e.pageY - this.offsetTop) - rect.startY ;
+		    ctx.clearRect(0,0,canvas.width,canvas.height);
+		    drawimage();
+		    draw();
+		  }
+		}
+
+		function draw() {
+		    ctx.setLineDash([6]);
+		    ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
+		}
+
+		init();
+	}
+	</script>
+</head>
+<body onload="initFrame();">
+	<canvas id="canvas" width="800" height="650"></canvas>
+</body>
+</html>
