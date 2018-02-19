@@ -13,11 +13,13 @@
 	var sun = new Image();
 	var moon = new Image();
 	var earth = new Image();
+	var zippo = new Image();
 
 	function initFrame() {
 		sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';
 		moon.src = 'https://mdn.mozillademos.org/files/1443/Canvas_moon.png';
 		earth.src = 'https://mdn.mozillademos.org/files/1429/Canvas_earth.png';
+		zippo.src = 'https://cdn.shopify.com/s/files/1/1295/7985/products/Classic_Brushed_Chrome_-_Front_1024x1024.jpg?v=1478712558';
 	  window.requestAnimationFrame(initdraw);
 	}
 
@@ -31,11 +33,16 @@
 		function drawimage() {
 			document.getElementById('canvas'),
 		    ctx = canvas.getContext('2d');
-		    ctx.drawImage(sun, 0, 0, 300, 300);
+		    //ctx.drawImage(sun, 0, 0, 300, 300);
+		    ctx.drawImage(zippo, 0, 0, 300, 300);
+
+		    ctx.fillStyle = "rgba(150,200,100,0.7)";
+		    ctx.fillRect(100, 100, 100, 40);
 		}
 
+
 		function init() {
-			drawimage();
+		  drawimage();
 		  canvas.addEventListener('mousedown', mouseDown, false);
 		  canvas.addEventListener('mouseup', mouseUp, false);
 		  canvas.addEventListener('mousemove', mouseMove, false);
@@ -69,8 +76,53 @@
 		init();
 	}
 	</script>
+	<link href="http://cdn.shopify.com/s/files/1/1295/7985/t/15/assets/customizer.scss.css?4725607679658820162" rel="stylesheet" type="text/css" media="all">
 </head>
 <body onload="initFrame();">
-	<canvas id="canvas" width="800" height="650"></canvas>
+	<canvas id="canvas" width="400" height="400" border="1"></canvas>
+	<div class="customizer-toolkit engrave-only">
+		<h3 class="customizer-sidebar-heading cf">
+			<span class="customizer-sidebar-heading-text">Select Custom Options</span>
+		</h3>
+		<div class="sidebar-container">
+			<ul class="layers-container ">
+				<li class="customizer-layer">
+					<span class="layer-handle">
+						<i class="icomoon-lock-closed"></i>
+					</span>
+					<span class="layer-icon">
+						<i class="icomoon-image"></i>
+					</span>
+					<div class="layer-inner">Engravable Text</div>
+					<span class="accordion-arrow">
+						<i class="icomoon-chevron-down"></i>
+					</span>
+					<div class="accordion-dropdown" style="height: 130px; overflow: visible;">
+						<div class="accordion-dropdown-inner">
+							<div class="layer-view">
+								<label class="layer-heading">Text</label>
+								<div class="layer-section">
+									<input value="" maxlength="16">
+									<i class="character-limit">
+										<!-- react-text: 255 -->(<!-- /react-text --><!-- react-text: 256 -->16<!-- /react-text --><!-- react-text: 257 --> characters max)<!-- /react-text -->
+									</i>
+								</div>
+								<label class="layer-heading">Font</label>
+								<div class="layer-section">
+									<div class="tooltip-wrapper select select--inline undefined">
+										<span class="tooltip"></span>
+										<select>
+											<option value="Times">Times</option>
+											<option value="Helvetica">Helvetica</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </body>
 </html>
