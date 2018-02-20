@@ -33,13 +33,18 @@
 		function drawimage() {
 			document.getElementById('canvas'),
 		    ctx = canvas.getContext('2d');
+		    text = document.getElementById('texture').value;
+		    font = document.getElementById('texture_font').value;
+
 		    //ctx.drawImage(sun, 0, 0, 300, 300);
 		    ctx.drawImage(zippo, 0, 0, 300, 300);
 
 		    ctx.fillStyle = "rgba(150,200,100,0.7)";
-		    ctx.fillRect(100, 100, 100, 40);
+		    ctx.fillRect(80, 120, 150, 40);
+		    ctx.fillStyle = "rgb(0,0,0)";
+		    ctx.font = font; //'10px serif';
+		    ctx.fillText(text, 110, 135);
 		}
-
 
 		function init() {
 		  drawimage();
@@ -102,7 +107,7 @@
 							<div class="layer-view">
 								<label class="layer-heading">Text</label>
 								<div class="layer-section">
-									<input value="" maxlength="16">
+									<input id="texture" value="" maxlength="16" onchange="initdraw()">
 									<i class="character-limit">
 										<!-- react-text: 255 -->(<!-- /react-text --><!-- react-text: 256 -->16<!-- /react-text --><!-- react-text: 257 --> characters max)<!-- /react-text -->
 									</i>
@@ -111,9 +116,9 @@
 								<div class="layer-section">
 									<div class="tooltip-wrapper select select--inline undefined">
 										<span class="tooltip"></span>
-										<select>
-											<option value="Times">Times</option>
-											<option value="Helvetica">Helvetica</option>
+										<select id="texture_font" onchange="initdraw()">
+											<option value="10px Times">Times</option>
+											<option value="10px Helvetica">Helvetica</option>
 										</select>
 									</div>
 								</div>
