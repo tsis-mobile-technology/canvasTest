@@ -1,40 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- 
-		1. https://developer.mozilla.org/ko/docs/Web/HTML/Canvas/Tutorial/Basic_usage
-		2. https://developer.mozilla.org/ko/docs/Web/HTML/Canvas/Tutorial/Drawing_shapes 
-	-->
-
 	<meta charset="utf-8"/>
 	<title>Canvas tutorial</title>
 	<script type="text/javascript">
-
-	var sun = new Image();
-	var moon = new Image();
-	var earth = new Image();
 	var zippo = new Image();
-	var canvas;
-	var ctx;
-	var rect;
-	var drag;
+	// var canvas;
+	// var ctx;
+	// var rect;
+	// var drag;
 
 	function initFrame() {
-		sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';
-		moon.src = 'https://mdn.mozillademos.org/files/1443/Canvas_moon.png';
-		earth.src = 'https://mdn.mozillademos.org/files/1429/Canvas_earth.png';
 		zippo.src = 'https://cdn.shopify.com/s/files/1/1295/7985/products/Classic_Brushed_Chrome_-_Front_1024x1024.jpg?v=1478712558';
-	  window.requestAnimationFrame(initdraw);
+		window.requestAnimationFrame(initdraw);
 	}
 
 	function initdraw() {
 
 		var canvas = document.getElementById('canvas'),
 		    ctx = canvas.getContext('2d'),
-		    rect = {"startX": 0, "startY":0},
+		    rect = {"startX": 80, "startY":120},
 		    drag = false;
+
 		var textCanvas = document.getElementById('canvas'),
-	    	textCtx = canvas.getContext('2d'),
+	    		textCtx = canvas.getContext('2d'),
 		    textRect = {},
 		    textDrag = true;
 
@@ -56,24 +45,33 @@
 		}
 
 		function mouseDown(e) {
-		  rect.startX = e.pageX;
-		  rect.startY = e.pageY;
-		  drag = true;
-console.log(">>>>>>>> mouseDown");
-console.log("drag:" + drag);
-console.log("e.pageX:" + e.pageX);
-console.log("e.pageY:" + e.pageY);
-console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
-console.log("this.offsetTop:" + this.offsetTop);
+			if(e.pageX > rect.startX && e.pageX < rect.startX + 150) {
+				rect.startX = e.pageX;
+				drag = true;
+			}
+
+			if(e.pageY > rect.startY && e.pageY < rect.startY + 40) {
+				rect.startY = e.pageY;
+				drag = true;
+			}
+			
+// console.log(">>>>>>>> mouseDown");
+// console.log("drag:" + drag);
+// console.log("e.pageX:" + e.pageX);
+// console.log("e.pageY:" + e.pageY);
+// console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
+// console.log("this.offsetTop:" + this.offsetTop);
 		}
 
 		function mouseUp() {
-			drag = false;
-			ctx.clearRect(0,0,canvas.width,canvas.height);
-		    drawimage();
-		    drawtexture(rect.startX, rect.startY);
-		    drawtexture2();
-		    //draw();
+			if (drag) {
+				drag = false;
+				ctx.clearRect(0,0,canvas.width,canvas.height);
+			    drawimage();
+			    drawtexture(rect.startX, rect.startY);
+			    drawtexture2();
+			    //draw();
+			}
 		}
 
 		function mouseMove(e) {
@@ -82,12 +80,12 @@ console.log("this.offsetTop:" + this.offsetTop);
 		    rect.h = (e.pageY - this.offsetTop) - rect.startY ;
 		    rect.startX = e.pageX;
 		    rect.startY = e.pageY;
-console.log(">>>>>>>> mouseMove:if");
-console.log("drag:" + drag);
-console.log("e.pageX:" + e.pageX);
-console.log("e.pageY:" + e.pageY);
-console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
-console.log("this.offsetTop:" + this.offsetTop);
+// console.log(">>>>>>>> mouseMove:if");
+// console.log("drag:" + drag);
+// console.log("e.pageX:" + e.pageX);
+// console.log("e.pageY:" + e.pageY);
+// console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
+// console.log("this.offsetTop:" + this.offsetTop);
 		    ctx.clearRect(0,0,canvas.width,canvas.height);
 		    drawimage();
 		    //drawtexture(rect.startX, rect.startY);
@@ -95,20 +93,20 @@ console.log("this.offsetTop:" + this.offsetTop);
 		    drawtexture2();
 		    //draw();
 		  } else {
-console.log(">>>>>>>> mouseMove:else");
-console.log("drag:" + drag);
-console.log("e.pageX:" + e.pageX);
-console.log("e.pageY:" + e.pageY);
-console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
-console.log("this.offsetTop:" + this.offsetTop);
+// console.log(">>>>>>>> mouseMove:else");
+// console.log("drag:" + drag);
+// console.log("e.pageX:" + e.pageX);
+// console.log("e.pageY:" + e.pageY);
+// console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
+// console.log("this.offsetTop:" + this.offsetTop);
 		  }
 		}
 
 		function drawtexture(startX, startY) {
 			if(!startX) startX = 80;
 			if(!startY) startY = 120;
-			document.getElementById('canvas'),
-		    ctx = canvas.getContext('2d');
+			// document.getElementById('canvas'),
+		 //    ctx = canvas.getContext('2d');
 		    text = document.getElementById('texture').value;
 		    font = document.getElementById('texture_font').value;
 
@@ -124,8 +122,8 @@ console.log("this.offsetTop:" + this.offsetTop);
 		}
 
 		function drawtexture2() {
-			document.getElementById('canvas'),
-		    ctx = canvas.getContext('2d');
+			// document.getElementById('canvas'),
+		 //    ctx = canvas.getContext('2d');
 		    text = document.getElementById('texture2').value;
 		    font = document.getElementById('texture_font2').value;
 
@@ -136,43 +134,19 @@ console.log("this.offsetTop:" + this.offsetTop);
 		    ctx.font = font; //'10px serif';
 		    ctx.fillText(text, 90, 85);
 		}
-/*
-		function mouseDown(e) {
-		  rect.startX = e.pageX - this.offsetLeft;
-		  rect.startY = e.pageY - this.offsetTop;
-		  drag = true;
-		}
 
-		function mouseUp() {
-			drag = false;
-			ctx.clearRect(0,0,canvas.width,canvas.height);
-		    drawimage();
-		    drawtexture(rect.startX, rect.startY);
-		    drawtexture2();
-		    //draw();
-		}
-		function mouseMove(e) {
-		  if (drag) {
-		    rect.w = (e.pageX - this.offsetLeft) - rect.startX;
-		    rect.h = (e.pageY - this.offsetTop) - rect.startY ;
-		    ctx.clearRect(0,0,canvas.width,canvas.height);
-		    drawimage();
-		    //drawtexture(rect.startX, rect.startY);
-		    drawtexture(e.pageX, e.pageY);
-		    drawtexture2();
-		    //draw();
-		  }
-		}
-*/
 		function draw() {
 		    ctx.setLineDash([6]);
 		    ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
 		}
 
+		document.getElementById("texture").addEventListener("change", function() { drawtexture(null,null); });
+		document.getElementById("texture_font").addEventListener("change", function() { drawtexture(null,null); });
+		document.getElementById("texture2").addEventListener("change", function() { drawtexture2(null,null); });
+		document.getElementById("texture_font2").addEventListener("change", function() { drawtexture2(null,null); });
+
 		init();
 	}
-
-	
 	</script>
 	<link href="http://cdn.shopify.com/s/files/1/1295/7985/t/15/assets/customizer.scss.css?4725607679658820162" rel="stylesheet" type="text/css" media="all">
 </head>
@@ -200,7 +174,7 @@ console.log("this.offsetTop:" + this.offsetTop);
 							<div class="layer-view">
 								<label class="layer-heading">Text</label>
 								<div class="layer-section">
-									<input id="texture" value="" maxlength="16" onchange="initdraw().drawtexture(rect.startX, rect.startY)">
+									<input id="texture" value="" maxlength="16" ><!-- onchange="initdraw().drawtexture(null,null)" -->
 									<i class="character-limit">
 										<!-- react-text: 255 -->(<!-- /react-text --><!-- react-text: 256 -->16<!-- /react-text --><!-- react-text: 257 --> characters max)<!-- /react-text -->
 									</i>
@@ -209,7 +183,7 @@ console.log("this.offsetTop:" + this.offsetTop);
 								<div class="layer-section">
 									<div class="tooltip-wrapper select select--inline undefined">
 										<span class="tooltip"></span>
-										<select id="texture_font" onchange="initdraw().drawtexture(this.rect.startX, this.rect.startY)">
+										<select id="texture_font">
 											<option value="15px Times">Times</option>
 											<option value="15px Helvetica">Helvetica</option>
 										</select>
@@ -239,7 +213,7 @@ console.log("this.offsetTop:" + this.offsetTop);
 							<div class="layer-view">
 								<label class="layer-heading">Text</label>
 								<div class="layer-section">
-									<input id="texture2" value="" maxlength="16" onchange="initdraw().drawtexture2()">
+									<input id="texture2" value="" maxlength="16">
 									<i class="character-limit">
 										<!-- react-text: 255 -->(<!-- /react-text --><!-- react-text: 256 -->16<!-- /react-text --><!-- react-text: 257 --> characters max)<!-- /react-text -->
 									</i>
@@ -248,7 +222,7 @@ console.log("this.offsetTop:" + this.offsetTop);
 								<div class="layer-section">
 									<div class="tooltip-wrapper select select--inline undefined">
 										<span class="tooltip"></span>
-										<select id="texture_font2" onchange="initdraw().drawtexture2()">
+										<select id="texture_font2">
 											<option value="15px Times">Times</option>
 											<option value="15px Helvetica">Helvetica</option>
 										</select>

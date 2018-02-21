@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="all" href="css/reset.css" /> <!-- reset css -->
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<style>
+    body{ background-color: ivory; }
+    #canvas{border:1px solid red;}
+</style>
+<script>
+$(function(){
+
+    var canvas=document.getElementById("canvas");
+    var ctx=canvas.getContext("2d");
+
+    var $canvas=$("#canvas");
+    var canvasOffset=$canvas.offset();
+    var offsetX=canvasOffset.left;
+    var offsetY=canvasOffset.top;
+    var scrollX=$canvas.scrollLeft();
+    var scrollY=$canvas.scrollTop();
+
+    var isDown=false;
+    var lastX,lastY;
+    var dragHash;
+
+    function handleMouseDown(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      lastX=parseInt(e.clientX-offsetX);
+      lastY=parseInt(e.clientY-offsetY);
+
+      // Put your mousedown stuff here
+      dragHash=0;
+      isDown=true;
+    }
+
+    function handleMouseUp(e){
+      e.preventDefault();
+      mouseX=parseInt(e.clientX-offsetX);
+      mouseY=parseInt(e.clientY-offsetY);
+
+      if(dragHash<5){
+          alert("It's a click...add a dot");
+      }else{
+          alert("You've been dragging");
+      }
+
+      // Put your mouseup stuff here
+      isDown=false;
+    }
+
+    function handleMouseMove(e){
+      if(!isDown){return;}
+      e.preventDefault();
+      mouseX=parseInt(e.clientX-offsetX);
+      mouseY=parseInt(e.clientY-offsetY);
+
+      // Put your mousemove stuff here
+      var dx=mouseX-lastX;
+      var dy=mouseY-lastY;
+      lastX=mouseX;
+      lastY=mouseY;
+
+      // accumulate the drag distance 
+      // (used in mouseup to see if this is a drag or click)
+      dragHash+=Math.abs(dx)+Math.abs(dy);
+
+      if(dragHash>4){
+          // it's a drag operation, draw the line
+      }
+
+    }
+
+    $("#canvas").mousedown(function(e){handleMouseDown(e);});
+    $("#canvas").mousemove(function(e){handleMouseMove(e);});
+    $("#canvas").mouseup(function(e){handleMouseUp(e);});
+
+
+
+}); // end $(function(){});
+</script>
+</head>
+<body>
+    <canvas id="canvas" width=300 height=300></canvas>
+</body>
+</html>
