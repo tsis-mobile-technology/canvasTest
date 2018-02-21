@@ -29,7 +29,7 @@
 
 	function initdraw() {
 
-		canvas = document.getElementById('canvas'),
+		var canvas = document.getElementById('canvas'),
 		    ctx = canvas.getContext('2d'),
 		    rect = {"startX": 0, "startY":0},
 		    drag = false;
@@ -56,6 +56,88 @@
 		}
 
 		function mouseDown(e) {
+		  rect.startX = e.pageX;
+		  rect.startY = e.pageY;
+		  drag = true;
+console.log(">>>>>>>> mouseDown");
+console.log("drag:" + drag);
+console.log("e.pageX:" + e.pageX);
+console.log("e.pageY:" + e.pageY);
+console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
+console.log("this.offsetTop:" + this.offsetTop);
+		}
+
+		function mouseUp() {
+			drag = false;
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+		    drawimage();
+		    drawtexture(rect.startX, rect.startY);
+		    drawtexture2();
+		    //draw();
+		}
+
+		function mouseMove(e) {
+		  if (drag) {
+		    rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+		    rect.h = (e.pageY - this.offsetTop) - rect.startY ;
+		    rect.startX = e.pageX;
+		    rect.startY = e.pageY;
+console.log(">>>>>>>> mouseMove:if");
+console.log("drag:" + drag);
+console.log("e.pageX:" + e.pageX);
+console.log("e.pageY:" + e.pageY);
+console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
+console.log("this.offsetTop:" + this.offsetTop);
+		    ctx.clearRect(0,0,canvas.width,canvas.height);
+		    drawimage();
+		    //drawtexture(rect.startX, rect.startY);
+		    drawtexture(e.pageX, e.pageY);
+		    drawtexture2();
+		    //draw();
+		  } else {
+console.log(">>>>>>>> mouseMove:else");
+console.log("drag:" + drag);
+console.log("e.pageX:" + e.pageX);
+console.log("e.pageY:" + e.pageY);
+console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
+console.log("this.offsetTop:" + this.offsetTop);
+		  }
+		}
+
+		function drawtexture(startX, startY) {
+			if(!startX) startX = 80;
+			if(!startY) startY = 120;
+			document.getElementById('canvas'),
+		    ctx = canvas.getContext('2d');
+		    text = document.getElementById('texture').value;
+		    font = document.getElementById('texture_font').value;
+
+		    //ctx.clearRect(80, 120, 150, 40);
+		    ctx.clearRect(startX, startY, 150, 40);
+		    ctx.fillStyle = "rgba(150,200,100,0.7)";
+		    //ctx.fillRect(80, 120, 150, 40);
+		    ctx.fillRect(startX, startY, 150, 40);
+		    ctx.fillStyle = "rgb(0,0,0)";
+		    ctx.font = font; //'10px serif';
+		    // ctx.fillText(text, 90, 145);
+		    ctx.fillText(text, startX + 10, startY + 25);
+		}
+
+		function drawtexture2() {
+			document.getElementById('canvas'),
+		    ctx = canvas.getContext('2d');
+		    text = document.getElementById('texture2').value;
+		    font = document.getElementById('texture_font2').value;
+
+		    ctx.clearRect(80, 60, 150, 40);
+		    ctx.fillStyle = "rgba(150,200,100,0.7)";
+		    ctx.fillRect(80, 60, 150, 40);
+		    ctx.fillStyle = "rgb(0,0,0)";
+		    ctx.font = font; //'10px serif';
+		    ctx.fillText(text, 90, 85);
+		}
+/*
+		function mouseDown(e) {
 		  rect.startX = e.pageX - this.offsetLeft;
 		  rect.startY = e.pageY - this.offsetTop;
 		  drag = true;
@@ -81,7 +163,7 @@
 		    //draw();
 		  }
 		}
-
+*/
 		function draw() {
 		    ctx.setLineDash([6]);
 		    ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
@@ -90,38 +172,7 @@
 		init();
 	}
 
-	function drawtexture(startX, startY) {
-		if(!startX) startX = 80;
-		if(!startY) startY = 120;
-		document.getElementById('canvas'),
-	    ctx = canvas.getContext('2d');
-	    text = document.getElementById('texture').value;
-	    font = document.getElementById('texture_font').value;
-
-	    //ctx.clearRect(80, 120, 150, 40);
-	    ctx.clearRect(startX, startY, 150, 40);
-	    ctx.fillStyle = "rgba(150,200,100,0.7)";
-	    //ctx.fillRect(80, 120, 150, 40);
-	    ctx.fillRect(startX, startY, 150, 40);
-	    ctx.fillStyle = "rgb(0,0,0)";
-	    ctx.font = font; //'10px serif';
-	    // ctx.fillText(text, 90, 145);
-	    ctx.fillText(text, startX + 10, startY + 25);
-	}
-
-	function drawtexture2() {
-		document.getElementById('canvas'),
-	    ctx = canvas.getContext('2d');
-	    text = document.getElementById('texture2').value;
-	    font = document.getElementById('texture_font2').value;
-
-	    ctx.clearRect(80, 60, 150, 40);
-	    ctx.fillStyle = "rgba(150,200,100,0.7)";
-	    ctx.fillRect(80, 60, 150, 40);
-	    ctx.fillStyle = "rgb(0,0,0)";
-	    ctx.font = font; //'10px serif';
-	    ctx.fillText(text, 90, 85);
-	}
+	
 	</script>
 	<link href="http://cdn.shopify.com/s/files/1/1295/7985/t/15/assets/customizer.scss.css?4725607679658820162" rel="stylesheet" type="text/css" media="all">
 </head>
@@ -149,7 +200,7 @@
 							<div class="layer-view">
 								<label class="layer-heading">Text</label>
 								<div class="layer-section">
-									<input id="texture" value="" maxlength="16" onchange="drawtexture(rect.startX, rect.startY)">
+									<input id="texture" value="" maxlength="16" onchange="initdraw().drawtexture(rect.startX, rect.startY)">
 									<i class="character-limit">
 										<!-- react-text: 255 -->(<!-- /react-text --><!-- react-text: 256 -->16<!-- /react-text --><!-- react-text: 257 --> characters max)<!-- /react-text -->
 									</i>
@@ -158,7 +209,7 @@
 								<div class="layer-section">
 									<div class="tooltip-wrapper select select--inline undefined">
 										<span class="tooltip"></span>
-										<select id="texture_font" onchange="drawtexture(this.rect.startX, this.rect.startY)">
+										<select id="texture_font" onchange="initdraw().drawtexture(this.rect.startX, this.rect.startY)">
 											<option value="15px Times">Times</option>
 											<option value="15px Helvetica">Helvetica</option>
 										</select>
@@ -188,7 +239,7 @@
 							<div class="layer-view">
 								<label class="layer-heading">Text</label>
 								<div class="layer-section">
-									<input id="texture2" value="" maxlength="16" onchange="drawtexture2()">
+									<input id="texture2" value="" maxlength="16" onchange="initdraw().drawtexture2()">
 									<i class="character-limit">
 										<!-- react-text: 255 -->(<!-- /react-text --><!-- react-text: 256 -->16<!-- /react-text --><!-- react-text: 257 --> characters max)<!-- /react-text -->
 									</i>
@@ -197,7 +248,7 @@
 								<div class="layer-section">
 									<div class="tooltip-wrapper select select--inline undefined">
 										<span class="tooltip"></span>
-										<select id="texture_font2" onchange="drawtexture2()">
+										<select id="texture_font2" onchange="initdraw().drawtexture2()">
 											<option value="15px Times">Times</option>
 											<option value="15px Helvetica">Helvetica</option>
 										</select>
