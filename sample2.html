@@ -45,12 +45,10 @@
 		}
 
 		function mouseDown(e) {
-			if(e.pageX > rect.startX && e.pageX < rect.startX + 150) {
+// console.log("e.pageX:" + e.pageX + ",rect.startX:" + rect.startX + ",rect.startX:" + (Number(rect.startX) + 150));
+// console.log("e.pageY:" + e.pageY + ",rect.startY:" + rect.startY + ",rect.startY:" + (Number(rect.startY) + 40));
+			if(e.pageX > rect.startX && e.pageX < rect.startX + 150 && e.pageY > rect.startY && e.pageY < rect.startY + 40) {
 				rect.startX = e.pageX;
-				drag = true;
-			}
-
-			if(e.pageY > rect.startY && e.pageY < rect.startY + 40) {
 				rect.startY = e.pageY;
 				drag = true;
 			}
