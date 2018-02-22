@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
 	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<title>Canvas tutorial</title>
 	<script type="text/javascript">
 	var zippo = new Image();
@@ -42,12 +44,54 @@
 		  canvas.addEventListener('mousedown', mouseDown, false);
 		  canvas.addEventListener('mouseup', mouseUp, false);
 		  canvas.addEventListener('mousemove', mouseMove, false);
+		  canvas.addEventListener('touchmove', touchmove, false);
+		}
+
+		function touchmove(event) {
+
+
+			var touch = event.targetTouches[0];
+
+			// Is touch close enough to our object?
+			if(detectHit(rect.startX, rect.startY, touch.pageX, touch.pageY, 150, 40)) {
+				// Assign new coordinates to our object
+				rect.startX = touch.pageX;
+				rect.startY = touch.pageY;
+
+				// Redraw the canvas
+				ctx.clearRect(0,0,canvas.width,canvas.height);
+			    drawimage();
+			    drawtexture();
+			    drawtexture2();
+			}
+
+			// var e = event.targetTouches[0];
+
+			// if(e.pageX > rect.startX && e.pageX < rect.startX + 150 && e.pageY > rect.startY && e.pageY < rect.startY + 40) {
+			// 	rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+			// 	rect.h = (e.pageY - this.offsetTop) - rect.startY ;
+			// 	rect.startX = e.pageX;
+			// 	rect.startY = e.pageY;
+			// 	ctx.clearRect(0,0,canvas.width,canvas.height);
+			// 	drawimage();
+			// 	drawtexture(e.pageX, e.pageY);
+			// 	drawtexture2();
+			// }
+			//event.preventDefault();
+		}
+
+		function detectHit(x1,y1,x2,y2,w,h) {
+			//Very simple detection here
+			if(x2-x1>w) return false;
+			if(y2-y1>h) return false;
+			return true;
 		}
 
 		function mouseDown(e) {
 // console.log("e.pageX:" + e.pageX + ",rect.startX:" + rect.startX + ",rect.startX:" + (Number(rect.startX) + 150));
 // console.log("e.pageY:" + e.pageY + ",rect.startY:" + rect.startY + ",rect.startY:" + (Number(rect.startY) + 40));
-			if(e.pageX > rect.startX && e.pageX < rect.startX + 150 && e.pageY > rect.startY && e.pageY < rect.startY + 40) {
+			//if(e.pageX > rect.startX && e.pageX < rect.startX + 150 && e.pageY > rect.startY && e.pageY < rect.startY + 40) {
+			if(detectHit(rect.startX, rect.startY, e.pageX, e.pageY, 150, 40)) {
 				rect.startX = e.pageX;
 				rect.startY = e.pageY;
 				drag = true;
@@ -101,8 +145,8 @@
 		}
 
 		function drawtexture(startX, startY) {
-			if(!startX) startX = 80;
-			if(!startY) startY = 120;
+			if(!startX) startX = rect.startX;//80;
+			if(!startY) startY = rect.startY;//120;
 			// document.getElementById('canvas'),
 		 //    ctx = canvas.getContext('2d');
 		    text = document.getElementById('texture').value;
@@ -146,48 +190,27 @@
 		init();
 	}
 	</script>
-	<link href="http://cdn.shopify.com/s/files/1/1295/7985/t/15/assets/customizer.scss.css?4725607679658820162" rel="stylesheet" type="text/css" media="all">
 </head>
 <body onload="initFrame();">
-	<canvas id="canvas" width="400" height="400" border="1"></canvas>
+	<canvas id="canvas" width="400" height="300" border="1"></canvas>
 	<div class="customizer-toolkit engrave-only">
 		<h3 class="customizer-sidebar-heading cf">
 			<span class="customizer-sidebar-heading-text">Select Custom Options</span>
 		</h3>
-		<div class="sidebar-container">
-			<ul class="layers-container ">
-				<li class="customizer-layer">
-					<span class="layer-handle">
-						<i class="icomoon-lock-closed"></i>
-					</span>
-					<span class="layer-icon">
-						<i class="icomoon-image"></i>
-					</span>
-					<div class="layer-inner">Engravable Text</div>
-					<span class="accordion-arrow">
-						<i class="icomoon-chevron-down"></i>
-					</span>
-					<div class="accordion-dropdown" style="height: 130px; overflow: visible;">
-						<div class="accordion-dropdown-inner">
-							<div class="layer-view">
-								<label class="layer-heading">Text</label>
-								<div class="layer-section">
-									<input id="texture" value="" maxlength="16" ><!-- onchange="initdraw().drawtexture(null,null)" -->
-									<i class="character-limit">
-										<!-- react-text: 255 -->(<!-- /react-text --><!-- react-text: 256 -->16<!-- /react-text --><!-- react-text: 257 --> characters max)<!-- /react-text -->
-									</i>
-								</div>
-								<label class="layer-heading">Font</label>
-								<div class="layer-section">
-									<div class="tooltip-wrapper select select--inline undefined">
-										<span class="tooltip"></span>
-										<select id="texture_font">
-											<option value="15px Times">Times</option>
-											<option value="15px Helvetica">Helvetica</option>
-										</select>
-									</div>
-								</div>
-							</div>
+		<div>
+			<ul>
+				<li>
+					<div class="layer-view">
+						<label class="layer-heading">Text</label>
+						<div class="layer-section">
+							<input id="texture" value="" maxlength="16" ><!-- onchange="initdraw().drawtexture(null,null)" -->
+						</div>
+						<label class="layer-heading">Font</label>
+						<div class="layer-section">
+							<select id="texture_font">
+								<option value="15px Times">Times</option>
+								<option value="15px Helvetica">Helvetica</option>
+							</select>
 						</div>
 					</div>
 				</li>
