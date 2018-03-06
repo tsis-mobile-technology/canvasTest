@@ -47,9 +47,13 @@
 		  canvas.addEventListener('touchmove', touchmove, false);
 		}
 
+		function drawRetangle() {
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = "rgb(200,0,0)";
+			ctx.fillRect (10,10,50,50);
+		}
+
 		function touchmove(event) {
-
-
 			var touch = event.targetTouches[0];
 
 			// Is touch close enough to our object?
@@ -179,67 +183,50 @@
 </head>
 <body onload="initFrame();">
 	<canvas id="canvas" width="400" height="300" border="1"></canvas>
-	<div class="customizer-toolkit engrave-only">
-		<h3 class="customizer-sidebar-heading cf">
-			<span class="customizer-sidebar-heading-text">Select Custom Options</span>
-		</h3>
-		<div>
-			<ul>
-				<li>
-					<div class="layer-view">
-						<label class="layer-heading">Text</label>
-						<div class="layer-section">
-							<input id="texture" value="" maxlength="16" ><!-- onchange="initdraw().drawtexture(null,null)" -->
-						</div>
-						<label class="layer-heading">Font</label>
-						<div class="layer-section">
-							<select id="texture_font">
-								<option value="15px Times">Times</option>
-								<option value="15px Helvetica">Helvetica</option>
-							</select>
-						</div>
-					</div>
-				</li>
-			</ul>
+	<div>
+		<h2>
+			<span>Text Input Custom Options</span>
+		</h2>
+		<div width="100%">
+			<h3>
+				<span>Move Text Area</span>
+			</h3>
+			<div>
+				Text:<input id="texture" value="" maxlength="16" ><!-- onchange="initdraw().drawtexture(null,null)" -->
+			</div>
+			<div>Font:
+				<select id="texture_font">
+					<option value="15px Times">Times</option>
+					<option value="15px Helvetica">Helvetica</option>
+				</select>
+			</div>
 		</div>
-		<div class="sidebar-container">
-			<ul class="layers-container ">
-				<li class="customizer-layer">
-					<span class="layer-handle">
-						<i class="icomoon-lock-closed"></i>
-					</span>
-					<span class="layer-icon">
-						<i class="icomoon-image"></i>
-					</span>
-					<div class="layer-inner">Engravable Text</div>
-					<span class="accordion-arrow">
-						<i class="icomoon-chevron-down"></i>
-					</span>
-					<div class="accordion-dropdown" style="height: 130px; overflow: visible;">
-						<div class="accordion-dropdown-inner">
-							<div class="layer-view">
-								<label class="layer-heading">Text</label>
-								<div class="layer-section">
-									<input id="texture2" value="" maxlength="16">
-									<i class="character-limit">
-										<!-- react-text: 255 -->(<!-- /react-text --><!-- react-text: 256 -->16<!-- /react-text --><!-- react-text: 257 --> characters max)<!-- /react-text -->
-									</i>
-								</div>
-								<label class="layer-heading">Font</label>
-								<div class="layer-section">
-									<div class="tooltip-wrapper select select--inline undefined">
-										<span class="tooltip"></span>
-										<select id="texture_font2">
-											<option value="15px Times">Times</option>
-											<option value="15px Helvetica">Helvetica</option>
-										</select>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</li>
-			</ul>
+		<div width="100%">
+			<h3>
+				<span>Fix Text Area</span>
+			</h3>
+			<div>
+				Text:<input id="texture2" value="" maxlength="16">
+			</div>
+			<div>Font:
+				<select id="texture_font2">
+					<option value="15px Times">Times</option>
+					<option value="15px Helvetica">Helvetica</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div>
+		<h2>
+			<span>Shape Custom Options</span>
+		</h2>
+		<div width="100%">
+			<h3>
+				<span>Retangle Shape</span>
+			</h3>
+			<div>
+				
+			</div>
 		</div>
 	</div>
 </body>
