@@ -176,6 +176,7 @@
 		document.getElementById("texture_font").addEventListener("change", function() { drawtexture(); });
 		document.getElementById("texture2").addEventListener("change", function() { drawtexture2(); });
 		document.getElementById("texture_font2").addEventListener("change", function() { drawtexture2(); });
+		var Retangle = document.getElementById('Retangle'); Retangle.addEventListener('click', drawRetangle);
 
 		init();
 	}
@@ -225,7 +226,9 @@
 				<span>Retangle Shape</span>
 			</h3>
 			<div>
-				
+				<input type="button" value="Retangle" id="Retangle">
+				<input type="button" value="Triangle" id="Triangle">
+				<input type="button" value="Circle" id="Circle">
 			</div>
 		</div>
 	</div>
