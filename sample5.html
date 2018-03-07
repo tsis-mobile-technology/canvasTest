@@ -7,13 +7,9 @@
 	<title>Canvas tutorial</title>
 	<script type="text/javascript">
 	var zippo = new Image();
-	// var canvas;
-	// var ctx;
-	// var rect;
-	// var drag;
-//https://mobiforge.com/design-development/touch-friendly-drag-and-drop
+	
 	function initFrame() {
-		zippo.src = 'https://cdn.shopify.com/s/files/1/1295/7985/products/Classic_Brushed_Chrome_-_Front_1024x1024.jpg?v=1478712558';
+		zippo.src = 'http://35.230.61.252/workspacesHTML5/canvasTest/images/zippo.jpg';
 		window.requestAnimationFrame(initdraw);
 	}
 
@@ -32,8 +28,6 @@
 		function drawimage() {
 			document.getElementById('canvas'),
 		    ctx = canvas.getContext('2d');
-
-		    //ctx.drawImage(sun, 0, 0, 300, 300);
 		    ctx.drawImage(zippo, 0, 0, 300, 300);
 		}
 
@@ -53,9 +47,28 @@
 			ctx.fillRect (10,10,50,50);
 		}
 
+		function drawTriangle() {
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = "rgb(0,200,0)";
+			ctx.beginPath();
+			ctx.moveTo(25, 25);
+			ctx.lineTo(105, 25);
+			ctx.lineTo(25, 105);
+			ctx.fill();
+		}
+
+		function drawCircle() {
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = "rgb(0,0,200)";
+			ctx.beginPath();
+			ctx.arc(75, 75, 50, 0, Math.PI * 2, true);
+			ctx.fill();
+		}
+
 		function touchmove(event) {
 			var touch = event.targetTouches[0];
-
+console.log("touch.pageX:" + touch.pageX + ",rect.startX:" + rect.startX + ",rect.startX:" + (Number(rect.startX) + 150));
+console.log("touch.pageY:" + touch.pageY + ",rect.startY:" + rect.startY + ",rect.startY:" + (Number(rect.startY) + 40));
 			// Is touch close enough to our object?
 			if(detectHit(rect.startX, rect.startY, touch.pageX, touch.pageY, 150, 40)) {
 				// Assign new coordinates to our object
@@ -67,14 +80,15 @@
 			    drawimage();
 			    drawtexture();
 			    drawtexture2();
+
+			    drawRetangle();
 			}
 		}
 
 		function detectHit(x1,y1,x2,y2,w,h) {
 			//Very simple detection here
-			if(x2-x1>w) return false;
-			if(y2-y1>h) return false;
-			return true;
+			if( (x2 > x1 && x2 < (x1 + w)) && (y2 > y1 && y2 < (y1 + h)) ) return true;
+			return false;
 		}
 
 		function mouseDown(e) {
@@ -85,14 +99,13 @@
 				rect.startX = e.pageX;
 				rect.startY = e.pageY;
 				drag = true;
-			}
-			
 // console.log(">>>>>>>> mouseDown");
 // console.log("drag:" + drag);
 // console.log("e.pageX:" + e.pageX);
 // console.log("e.pageY:" + e.pageY);
 // console.log("this.offsetLeft:" + this.offsetLeft); //this.offsetLeft, Top is mouse pointer pixel size
 // console.log("this.offsetTop:" + this.offsetTop);
+			}
 		}
 
 		function mouseUp() {
@@ -102,6 +115,8 @@
 			    drawimage();
 			    drawtexture(rect.startX, rect.startY);
 			    drawtexture2();
+
+			    drawRetangle();
 			    //draw();
 			}
 		}
@@ -123,6 +138,8 @@
 		    //drawtexture(rect.startX, rect.startY);
 		    drawtexture(e.pageX, e.pageY);
 		    drawtexture2();
+
+		    drawRetangle();
 		    //draw();
 		  } else {
 // console.log(">>>>>>>> mouseMove:else");
@@ -177,6 +194,8 @@
 		document.getElementById("texture2").addEventListener("change", function() { drawtexture2(); });
 		document.getElementById("texture_font2").addEventListener("change", function() { drawtexture2(); });
 		var Retangle = document.getElementById('Retangle'); Retangle.addEventListener('click', drawRetangle);
+		var Triangle = document.getElementById('Triangle'); Triangle.addEventListener('click', drawTriangle);
+		var Circle = document.getElementById('Circle'); Circle.addEventListener('click', drawCircle);
 
 		init();
 	}

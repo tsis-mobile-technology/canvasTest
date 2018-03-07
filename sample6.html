@@ -13,13 +13,10 @@
 		}
 	</style>
 </head>
- 
 <body>
- 
 	<canvas id='c' style = 'position: absolute; left: 0px; top: 0px;' >
 	</canvas>
 	<canvas id="story"></canvas>
-	
 	<script>
 		(function() {
 			var 
@@ -80,9 +77,17 @@ console.log("height:" + height);
 	      canvas.height=height;
 	      canvas.width=width;
 	      context.drawImage(img, 0, 0);
+
+
 	}
 
 	</script>
+	<script type="text/javascript">
+		if(window.console!=undefined){
+			setTimeout(console.log.bind(console,"%cGAINWORLD","font:8em Arial;color:#EC6521;font-weight:bold"),0);
+			setTimeout(console.log.bind(console,"%c  getContext()","font:2em sans-serif;color:#333;"),0);}
+	</script>
+	
 	<img id="img1" alt="" src="http://35.230.61.252/workspacesHTML5/canvasTest/images/clock.jpg" hidden/>
 </body>
  

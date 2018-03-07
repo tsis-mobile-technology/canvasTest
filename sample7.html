@@ -1,0 +1,84 @@
+<!DOCTYPE html>    
+<head>
+    <meta charset="utf-8">
+    <title>Resize HTML5 canvas dynamically | www.htmlcheats.com</title>
+</head>
+<body>
+	<canvas id="drawcanvas" width="500" height="500" style="border: 1px solid black;"></canvas>
+	<script>
+		var pos = {
+		    drawable: false,
+		    x: -1,
+		    y: -1
+		};
+		var drawcanvas, drawctx;
+		 
+		window.onload = function(){
+		    drawcanvas = document.getElementById("drawcanvas");
+		    drawctx = drawcanvas.getContext("2d");
+		 
+		    drawcanvas.addEventListener("mousedown", listener);
+		    drawcanvas.addEventListener("mousemove", listener);
+		    drawcanvas.addEventListener("mouseup", listener);
+		    drawcanvas.addEventListener("mouseout", listener);
+		}
+		 
+		function listener(event){
+		    switch(event.type){
+		        case "mousedown":
+		            initDraw(event);
+		            break;
+		 
+		        case "mousemove":
+		            if(pos.drawable)
+		                draw(event);
+		            break;
+		 
+		        case "mouseout":
+		        case "mouseup":
+		            finishDraw();
+		            break;
+		    }
+		}
+		function initDraw(event){
+		    drawctx.beginPath();
+		    pos.drawable = true;
+		    var coors = getPosition(event);
+		    pos.X = coors.X;
+		    pos.Y = coors.Y;
+		    drawctx.moveTo(pos.X, pos.Y);
+		}
+		 
+		function draw(event){
+		    var coors = getPosition(event);
+		    drawctx.lineTo(coors.X, coors.Y);
+		    pos.X = coors.X;
+		    pos.Y = coors.Y;
+		    drawctx.stroke();
+		}
+		 
+		function finishDraw(){
+		    pos.drawable = false;
+		    pos.X = -1;
+		    pos.Y = -1;
+		}
+		 
+		function getPosition(event){
+		    var x = event.pageX - drawcanvas.offsetLeft;
+		    var y = event.pageY - drawcanvas.offsetTop;
+		    return {X: x, Y: y};
+		}
+
+	</script>
+	<script type="text/javascript">
+		if(window.console!=undefined){
+			setTimeout(console.log.bind(console,"%cGAINWORLD","font:8em Arial;color:#EC6521;font-weight:bold"),0);
+			setTimeout(console.log.bind(console,"%c  getContext()","font:2em sans-serif;color:#333;"),0);}
+	</script>
+	
+</body>
+ 
+</html>
+
+
+
