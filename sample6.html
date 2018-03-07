@@ -1,0 +1,92 @@
+<!DOCTYPE html>    
+<head>
+    <meta charset="utf-8">
+    <title>Resize HTML5 canvas dynamically | www.htmlcheats.com</title>
+	<style>
+		html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			border: 0;
+			overflow: hidden; /*  Disable scrollbars */
+			display: block;  /* No floating content on sides */
+		}
+	</style>
+</head>
+ 
+<body>
+ 
+	<canvas id='c' style = 'position: absolute; left: 0px; top: 0px;' >
+	</canvas>
+	<canvas id="story"></canvas>
+	
+	<script>
+		(function() {
+			var 
+				// Obtain a reference to the canvas element
+				// using its id.
+				htmlCanvas = document.getElementById('c'),
+			
+			  	// Obtain a graphics context on the
+			  	// canvas element for drawing.
+			  	context = htmlCanvas.getContext('2d');
+ 
+			// Start listening to resize events and
+			// draw canvas.
+			initialize();
+ 
+			function initialize() {
+				// Register an event listener to
+				// call the resizeCanvas() function each time 
+				// the window is resized.
+				window.addEventListener('resize', resizeCanvas, false);
+				
+				// Draw canvas border for the first time.
+				resizeCanvas();
+			}
+				
+			// Display custom canvas.
+			// In this case it's a blue, 5 pixel border that 
+			// resizes along with the browser window.					
+			function redraw() {
+				context.strokeStyle = 'blue';
+				context.lineWidth = '5';
+				context.strokeRect(0, 0, window.innerWidth/2, window.innerHeight/2);
+			}
+		
+			// Runs each time the DOM window resize event fires.
+			// Resets the canvas dimensions to match window,
+			// then draws the new borders accordingly.
+			function resizeCanvas() {
+				htmlCanvas.width = window.innerWidth;
+				htmlCanvas.height = window.innerHeight;
+				redraw();
+			}
+		
+		})();
+	</script>
+	
+
+	<script type="text/javascript">
+
+	window.onload = function() {
+	      var canvas = document.getElementById("story");
+	      var context = canvas.getContext("2d");
+	      var img = document.getElementById("img1");
+	      var width = parseInt(img.width);
+	      var height = parseInt(img.height);
+console.log("width:" + width);
+console.log("height:" + height);
+	      canvas.height=height;
+	      canvas.width=width;
+	      context.drawImage(img, 0, 0);
+	}
+
+	</script>
+	<img id="img1" alt="" src="http://35.230.61.252/workspacesHTML5/canvasTest/images/clock.jpg" hidden/>
+</body>
+ 
+</html>
+
+
+

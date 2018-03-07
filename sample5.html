@@ -180,9 +180,10 @@
 
 		init();
 	}
+	window.onload = function() {initFrame();}
 	</script>
 </head>
-<body onload="initFrame();">
+<body> <!-- onload="initFrame();" -->
 	<canvas id="canvas" width="400" height="300" border="1"></canvas>
 	<div>
 		<h2>
